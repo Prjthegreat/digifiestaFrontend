@@ -1,0 +1,32 @@
+nav  ul button{
+    border: 0;
+    padding: 20px 30px;
+    /* background: linear-gradient(to right,#ffe169, #ffa913); */
+    background: linear-gradient(to right,#f5f128, #d0f52b);
+    border-radius: 50px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: lighter;
+    font-size: 24px;
+    /* color: #0f2f44; */
+    color: #ececec;
+    transition: all 0.3s;
+}
+@keyframes flip-scale-down-diag-2 {
+    0% {
+      transform: scale(1) rotate3d(-1, 1, 0, 0deg);
+    }
+    50% {
+      transform: scale(0.4) rotate3d(-1, 1, 0, -90deg);
+    }
+    100% {
+      transform: scale(1) rotate3d(-1, 1, 0, -180deg);
+    }
+  }
+nav  ul button:hover{
+    background: linear-gradient(to right,#d0f52b, #f5f128);
+}
+nav ul button:focus{
+    outline: 0px auto -webkit-focus-ring-color;
+    animation: flip-scale-down-diag-2 0.3s linear both;
+    opacity:0
+}

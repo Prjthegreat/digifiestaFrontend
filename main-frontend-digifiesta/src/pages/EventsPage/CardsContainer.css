@@ -1,0 +1,9 @@
+.events__flex__box{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin:0px;
+    padding:8px 15px;
+    background-color: #bbbbbb;
+    padding:25px;
+}
