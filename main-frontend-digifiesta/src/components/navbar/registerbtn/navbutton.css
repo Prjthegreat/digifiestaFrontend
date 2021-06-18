@@ -1,4 +1,4 @@
-nav  ul button{
+nav  ul .registrationbtn{
     border: 0;
     padding: 20px 30px;
     /* background: linear-gradient(to right,#ffe169, #ffa913); */
@@ -22,10 +22,10 @@ nav  ul button{
       transform: scale(1) rotate3d(-1, 1, 0, -180deg);
     }
   }
-nav  ul button:hover{
+nav  ul .registrationbtn:hover{
     background: linear-gradient(to right,#d0f52b, #f5f128);
 }
-nav ul button:focus{
+nav ul .registrationbtn:focus{
     outline: 0px auto -webkit-focus-ring-color;
     animation: flip-scale-down-diag-2 0.3s linear both;
     opacity:0

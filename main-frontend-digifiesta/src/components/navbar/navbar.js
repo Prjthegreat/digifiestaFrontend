@@ -1,16 +1,18 @@
-import React,{useState} from 'react';
-import {Link} from "react-router-dom";
+import React,{useState,useContext} from 'react';
+import {Link,NavLink} from "react-router-dom";
 import Button from "./registerbtn/navbtn";
 import './navbar.css'
 import '../../components/responsive.css'
+import {AuthContext} from '../../context/auth-context'
 function Navbar(props) {
+  const auth =useContext(AuthContext)
   let navItem = props
     .name
     .map((item) => {
       return (
         <li key={item.id} className="nav-item">
           {/* <Link to={item.link}>{item.name}</Link> */}
-          <a href={item.link} >{item.name}</a>
+          <NavLink to={item.link} >{item.name}</NavLink>
         </li>
       )
     })
@@ -38,14 +40,9 @@ function Navbar(props) {
 
             {navItem}
             <li className="nav-item dropdown">
-            <a className="nav-link " href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              RegisterFast!!
-            </a>
-            {/* <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-              <Link to="/error" class="dropdown-item" href="#">Error</Link>
-              <Link to="/coming_soon" class="dropdown-item" href="#">Comming Soon</Link>
-            </div> */}
-          </li>
+             { auth.islogin && <Link to="/" onClick={auth.logout}>Logout</Link>}
+            </li>
+          {/* {auth.islogin &&   <button className="logoutbtn" onClick={auth.logout} >LogOut</button>  } */}
           { !props.rgsbtndisable &&  <Link to="/pricing_plane">
             <Button></Button>
             </Link>}

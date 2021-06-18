@@ -7,7 +7,6 @@ import image from '../../images/UCCDA_wb (1).png'
 import { AuthContext } from '../../context/auth-context'
 const RegisterForm = () => {
   const [signUp,setSignUp]=useState(false)
-  const [token,settoken]=useState()
   const auth=useContext(AuthContext)
   const history=useHistory()
     const toggleForm = () => {
@@ -35,20 +34,6 @@ const RegisterForm = () => {
           return;
         }
     }
-    function getCookie(name) {
-      var cookieValue = null;
-      if (document.cookie && document.cookie !== '') {
-          var cookies = document.cookie.split(';');
-          for (var i = 0; i < cookies.length; i++) {
-              var cookie = jQuery.trim(cookies[i]);
-              if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                  break;
-              }
-          }
-      }
-      return cookieValue;
-  }  
     const onSubmitHandler=async(e)=>{
       e.preventDefault()
       if(!signUp){
@@ -58,32 +43,41 @@ const RegisterForm = () => {
 
 
          //login request
-      //    try{
-      //     const response= await fetch(`${process.env.REACT_APP_BACKEND_URL}accounts/register`,{
-      //         method:'POST',
-      //         headers:{
-      //             'Content-Type':'application/json'
-      //         },
-      //         body:JSON.stringify({
-      //          email:document.getElementById('signup-email').value,
-      //          password:psw,
+         try{
+          const response= await fetch(`${process.env.REACT_APP_BACKEND_URL}user/login`,{
+              method:'POST',
+              headers:{
+                  'Content-Type':'application/json',
+                  'Authorization':'Bearer '+auth.token
 
-      //         })
-      //     })
-      //     if(!response.ok){
-      //         throw new Error(response.message);
-      //     }
-      //     const responseData=await response.json();
-      //     console.log(responseData.user.id);
-      //     auth.login(responseData.user.id,responseData.token);
-      //     // setLoading(false);
-      //      console.log('loggedIn');
-      //     // console.log(auth);
-      // }catch(err){
-      //     // setLoading(false)
-      //     // setError(err.message || 'Something went Wrong, Please try again.');
-      //     console.log(err)
-      // }
+              },
+              body:JSON.stringify({
+               user:email,
+               password:psw,
+
+              })
+          })
+          if(response.status===401){
+            document.getElementById('err').style.display='block'
+            document.getElementById('err').innerHTML='invalid credentials'
+            document.getElementById('err').style.opacity=1
+            ID= setInterval(fn1,2000)
+          }
+          if(!response.ok){
+              throw new Error(response.message);
+          }
+          const responseData=await response.json();
+          console.log(responseData);
+          auth.login(responseData.token);
+          // setLoading(false);
+          history.push("/")
+           console.log('loggedIn');
+          // console.log(auth);
+      }catch(err){
+          // setLoading(false)
+          // setError(err.message || 'Something went Wrong, Please try again.');
+          console.log(err)
+      }
 
          //login request
 
@@ -91,20 +85,15 @@ const RegisterForm = () => {
 
       }
       else{
-        // var csrftoken=Cookies.get('csrftoken');
-        // Cookies.set('name', 'value');
-        //  console.log(Cookies.get())
-        // var cookies= document.cookie.split(';').map(cookie=>cookie.split('=')).reduce((accumulator,[key, value])=>({...accumulator,[key.trim()]: decodeURIComponent(value) }))
-        // console.log(cookies.csrftoken)
-        // settoken(cookies.csrftoken)
-        // var csrftoken = getCookie('csrftoken');
-        //console.log(csrftoken)
+      
         const psw=document.getElementById('signup-psw').value
         console.log(psw)
         if(psw.length<5){
           document.getElementById('err').style.display='block'
+          document.getElementById('err').innerHTML='Password should contain minimum 5 characters'
           document.getElementById('err').style.opacity=1
           ID= setInterval(fn1,1000)
+          return ;
          }
          //registration request
          try{
@@ -120,42 +109,54 @@ const RegisterForm = () => {
           formData.append('course',document.getElementById('signup-course').value)
           formData.append('branch',document.getElementById('signup-branch').value)
           formData.append('contactNo',document.getElementById('signup-contactNo').value)
-          const response= await fetch(`${process.env.REACT_APP_BACKEND_URL}accounts/register/`,{
+          const response= await fetch(`${process.env.REACT_APP_BACKEND_URL}user/signup`,{
               method:'POST',
               headers:{
-                "Accept": "application/json",
                 'Content-Type':'application/json',
-                  'X-CSRFTOKEN': csrftoken
+                //'Authorization':'Bearer '+token
               },
               
               body:JSON.stringify({
                 email:document.getElementById('signup-email').value,
-                username:document.getElementById('signup-name').value,
+                userName:document.getElementById('signup-name').value,
                 password:document.getElementById('signup-psw').value,
                 collegeName:document.getElementById('signup-cllgName').value,
                 rollNo:document.getElementById('signup-cllgRollNo').value,
                 year:document.getElementById('signup-year').value,
                 course:document.getElementById('signup-course').value,
-                //branch:document.getElementById('signup-branch').value,
+                branch:document.getElementById('signup-branch').value,
                 contactNo:document.getElementById('signup-contactNo').value,
-                //csrfmiddlewaretoken:'urghf3489fjuf3jivb3iuvrb'
               })
           })
+          if(response.status==409){
+            document.getElementById('err').style.display='block'
+            document.getElementById('err').innerHTML='Either username not available or email already registered'
+            document.getElementById('err').style.opacity=1
+            ID= setInterval(fn1,1000)
+          }
           if(!response.ok){
               throw new Error(response.message);
           }
-          var csrftoken = getCookie('csrftoken');
-          console.log(csrftoken)
+          if(response.status===401){
+            document.getElementById('err').style.display='block'
+            document.getElementById('err').innerHTML='invalid credentials'
+            document.getElementById('err').style.opacity=1
+            ID= setInterval(fn1,1000)
+          }
           const responseData=await response.json();
 
           console.log(responseData);
-          //auth.login(responseData);
+          auth.login(responseData.token);
           // setLoading(false);
-           console.log('signed up');
+          document.getElementById('err').style.display='block'
+          document.getElementById('err').innerHTML='Check your email to verify account. After successfull verification switch to signin window to login with your req credentials'
+          document.getElementById('err').style.opacity=1
+          ID= setInterval(fn1,3000)
+           console.log('check mail');
           // console.log(auth);
       }catch(err){
-          // setLoading(false)
-          // setError(err.message || 'Something went Wrong, Please try again.');
+          
+          
           console.log(err)
       }
 
@@ -205,8 +206,10 @@ const RegisterForm = () => {
               Haven't Registered yet ?
               <a href="#" onClick={toggleForm}>Register here</a>
             </p>
+            <p className="error" id="err" ></p>
            
-          </form>
+          </form><br/>
+          
         </div>
       </div>
     
@@ -228,7 +231,9 @@ const RegisterForm = () => {
               Already have an account ?
               <a href="#" onClick={toggleForm}>Sign in.</a>
             </p>
-            <p className="error" id="err" >Password should contain minimum 5 characters</p>
+            <p className="error" id="err" ></p>
+            {/* <p style={{color:'green',fontSize:'10px'}} >Check your email to verify account. After successfull verification
+               switch to signin window to login with your req credentials </p> */}
           </form>
         </div>
         <div className="imgBx"><img src="https://www.crushpixel.com/big-static15/preview4/hud-circle-user-interface-on-1970747.jpg" alt="" /></div>

@@ -72,6 +72,17 @@ nav ul .dropdown-item:hover {
     background-color: transparent;
     display: block;
 }
+.logoutbtn{
+    background-color: #0d6efd;
+    border:1px solid rgb(230, 230, 235);
+    padding:2px;
+    font-size: 10px;
+}
+.logoutbtn:hover{
+    background-color: rgb(230, 230, 235);
+    border:1px solid #0d6efd;
+
+}
 
 
 

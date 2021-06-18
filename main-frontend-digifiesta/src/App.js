@@ -5,19 +5,18 @@ import HomePage from './pages/HomePage';
 import MainEventsPage from './pages/EventsPage/MainEventsPage';
 import RegisterForm from './components/registration/RegisterForm';
 import {AuthContext} from './context/auth-context'
-import {useState,useCallback} from 'react'
+import {useState,useCallback,useEffect} from 'react'
 function App() {
  const [isLoggedIn,setIsLoggedIn]=useState(false)
  const [userid,setuserid]=useState(null)
- const [token,setToken]=useState(null)
+ const [token,setToken]=useState()
 const login=useCallback(
-  (uid,token) => {
-    setuserid(uid)
+  (token) => {
+    //setuserid(uid)
     setIsLoggedIn(true)
     setToken(token)
     localStorage.setItem('useritems',JSON.stringify({
       token,
-      uid:userid
     }))
   },
   [],
@@ -27,31 +26,39 @@ const logout=useCallback(
   () => {
     setIsLoggedIn(false)
     setToken(null)
-    setuserid(null)
+    //setuserid(null)
     localStorage.removeItem('useritems')
   },
   [],
 )
+useEffect(() => {
+  const storeData= JSON.parse(localStorage.getItem('useritems')) 
+  if(storeData && storeData.token){
+    login(storeData.token)
+  }
+}, [login])
   
   return (
     <div className="App">
       <Router>
+      <AuthContext.Provider value={{islogin:isLoggedIn,login:login,logout:logout,token:token}} >
          <Switch>
-           <AuthContext.Provider value={{islogin:isLoggedIn,login:login,logout:logout,token:token}} >
-           <Route  exact path="/" >
+           
+           <Route path="/" exact >
              <HomePage />
            </Route>
-           <Route  exact path="/eventpage" >
-            <MainEventsPage />
+           <Route  path="/eventpage" exact >
+            <MainEventsPage token={token} />
            </Route>
-           <Route  exact path="/soon" >
+           <Route   path="/soon" exact >
             coming soon
            </Route>
-           <Route  exact path="/pricing_plane" >
+           <Route  path="/pricing_plane" exact >
            <RegisterForm />
            </Route>
-           </AuthContext.Provider>
+        
          </Switch>
+         </AuthContext.Provider>
       </Router>
     </div>
   );
