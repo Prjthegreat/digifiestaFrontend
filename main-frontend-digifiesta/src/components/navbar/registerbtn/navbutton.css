@@ -1,12 +1,13 @@
-nav  ul .registrationbtn{
+ .registrationbtn{
     border: 0;
     padding: 20px 30px;
     /* background: linear-gradient(to right,#ffe169, #ffa913); */
-    background: linear-gradient(to right,#f5f128, #d0f52b);
+    /* background: linear-gradient(to right,#f5f128, #d0f52b); */
+    background: linear-gradient(to right,#2579e7, #a217f1);
     border-radius: 50px;
     font-family: 'Barlow Condensed', sans-serif;
-    font-weight: lighter;
-    font-size: 24px;
+    font-weight: bold;
+    font-size: 16px;
     /* color: #0f2f44; */
     color: #ececec;
     transition: all 0.3s;
@@ -22,10 +23,10 @@ nav  ul .registrationbtn{
       transform: scale(1) rotate3d(-1, 1, 0, -180deg);
     }
   }
-nav  ul .registrationbtn:hover{
-    background: linear-gradient(to right,#d0f52b, #f5f128);
+.registrationbtn:hover{
+  background: linear-gradient(to right,#a217f1, #2579e7);
 }
-nav ul .registrationbtn:focus{
+ .registrationbtn:focus{
     outline: 0px auto -webkit-focus-ring-color;
     animation: flip-scale-down-diag-2 0.3s linear both;
     opacity:0

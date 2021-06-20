@@ -94,3 +94,11 @@
     transform: scale(1, 1);
     text-indent: 0;
 }
+.btn__2{
+    background-color: rgb(26, 221, 26);
+    border:none;
+    padding:2px 8px;
+    font-size: medium;
+    font-weight: lighter;
+    margin:5px;
+}

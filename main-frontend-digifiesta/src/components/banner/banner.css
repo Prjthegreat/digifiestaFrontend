@@ -17,7 +17,7 @@
     font-size: 30px;
     font-weight: 300;
     color: #fff;
-    letter-spacing: 15px;
+    letter-spacing: 5px;
 }
 
 .banner-part h1{
@@ -164,7 +164,10 @@
 .banner-part .sub{
     display: none;
 }
-
+.rowfixer{
+    width:97vw;
+    margin-left:5px;
+}
 
 
 /* //media query */

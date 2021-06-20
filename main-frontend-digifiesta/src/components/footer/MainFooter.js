@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import './MainFooter.css'
 import '../../../node_modules/font-awesome/css/font-awesome.min.css'
 const MainFooter = () => {
@@ -14,10 +15,10 @@ const MainFooter = () => {
               <a href="#">DigiFiesta</a>
             </div>
             <ul class="list-unstyled nav-links mb-5">
-              <li><a href="#">Home</a></li>
-              <li><a href="#">Events</a></li>
-              <li><a href="#">Contact</a></li>
-              <li><a href="#">Registration</a></li>
+              <li><Link to="/" >Home</Link></li>
+              <li><Link to="/eventpage" >Events</Link></li>
+              <li><Link to="#1">Contact</Link></li>
+              <li><Link to="/registerhere">Registration</Link></li>
             </ul>
             <div id='contact' className="list-unstyled nav-links mb-5" style={{color:'white',textAlign:'revert',fontWeight:'lighter'}} >
              <p>YMCA UST,Sector-6 Faridabad, Haryana, India</p>

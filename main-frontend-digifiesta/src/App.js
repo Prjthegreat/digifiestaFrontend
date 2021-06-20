@@ -53,7 +53,7 @@ useEffect(() => {
            <Route   path="/soon" exact >
             coming soon
            </Route>
-           <Route  path="/pricing_plane" exact >
+           <Route  path="/registerhere" exact >
            <RegisterForm />
            </Route>
         

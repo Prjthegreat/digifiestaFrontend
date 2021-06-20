@@ -12,12 +12,12 @@ function banner(props) {
         <div className="container p-0">
           <BannerText err={props.text.error} sub={props.text.subHeading} heading={props.text.heading} />
         { props.countdown && props.videobtn && 
-        <div className="row">
+        <div className="row rowfixer">
                 <div className="col-lg-9">
                      <CountDown count={props.countdown}/>
                 </div>
 
-                <div className="col-lg-3 p-0">
+                <div className="col-lg-2 p-0">
                      <Vedionbtn videobtn={props.videobtn}/>
                 </div>
           </div>}

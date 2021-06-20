@@ -1,4 +1,6 @@
 import React,{useContext,useState,useEffect} from 'react'
+import Loader from "react-loader-spinner"
+import '../../../node_modules/react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import NavBar from '../../components/navbar/navbar'
 import Banner from '../../components/banner/banner'
 import CardsContainer from './CardsContainer'
@@ -7,9 +9,12 @@ import image from '../../images/UCCDA_wb (1).png'
 import Background from '../../images/Events.jpg'
 import Err from '../../images/error.png'
 import { AuthContext } from '../../context/auth-context'
+
 const MainEventsPage = (props) => {
     const auth=useContext(AuthContext)
     const [events,setEvents]=useState([])
+    const [isrequest,setIsRequest]=useState(false)
+    const [isLoading,setIsLoading]=useState(false)
     console.log(auth)
     const navitem = [
         {
@@ -17,56 +22,44 @@ const MainEventsPage = (props) => {
           name: "Home",
           link: "/"
         }, {
-          id: 2,
-          name: "Speakers",
-          link: "#speakers"
-        }, {
           id: 3,
           name: "Event",
           link: "/eventpage"
-        }, {
-          id: 5,
-          name: "Contact",
-          link: "#contact"
-        }
+        },
       ]
       
        useEffect(() => {
         const fetchEvents=async()=>{
-        
+           setIsLoading(true)
            const response= await fetch(`${process.env.REACT_APP_BACKEND_URL}event/list-events`,{
                method:'GET',
                headers:{
                    'Content-Type':'application/json',
-                   'Authorization':`Bearer ${auth.token}`
-     
+                   'Authorization':'Bearer '+auth.token
                },
            })
-          //  if(!response.ok){
-          //      console.log('response.message')
-          //  }
+       
           let array
           if(response.status==200){
             array= await response.json();
-          
+        
             setEvents(array);
+            setIsLoading(false)
           }
-          // if(response.status==403){
-          //   fetchEvents();
-          // }
+        
           else{
             console.log('wait....')
+            setIsLoading(false)
           }
-          //  const responseData=await response.json();
-          //  console.log(responseData);
-          //  setEvents(responseData)
-           // setLoading(false);
             console.log('get all events');
            // console.log(auth);
+
        
         }
+       // if(auth.token){
          fetchEvents()
-     }, [])
+        //}
+     }, [auth,isrequest])
 
 
         // banner image variable start
@@ -83,13 +76,23 @@ const MainEventsPage = (props) => {
   }
     return (
          <React.Fragment>
-           <NavBar name={navitem} logo={image} />
+          { isLoading &&<div style={{backgroundColor:'rgba(42, 42, 44, 0.85)',height:'100vh'}}><Loader
+              type="Bars"
+              color="#00BFFF"
+              height={500}
+              width={300}
+             visible={isLoading}
+            /></div> }
+          { !isLoading &&  <React.Fragment> 
+            <NavBar name={navitem} logo={image} />
            <Banner
            bg={bgimg}
            text={bannerText}
           />
-           <CardsContainer token={auth.token} events={events} />
+           <CardsContainer  events={events} isLoading={isLoading} 
+           setIsLoading={setIsLoading} isrequest={isrequest} setIsRequest={setIsRequest} />
            <MainFooter />
+            </React.Fragment>}
         </React.Fragment>
     )
 }

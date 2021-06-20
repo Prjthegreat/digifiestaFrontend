@@ -12,10 +12,11 @@
   overflow-y: auto;
   height: 170vh;
   /* background-color: #f8dd30; */
-  background-color: #2e3740c5;
+  /* background-color: #1a0672ce; */
+  background-color: #030f5fbd;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   padding: 20px;
 } 
 

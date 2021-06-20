@@ -20,20 +20,7 @@ const HomePage = () => {
           name: "Event",
           link: "/eventpage"
         },
-        {
-          id: 4,
-          name: "About",
-          link: "#about"
-        }, 
-        {
-          id: 5,
-          name: "Gallery",
-          link: "#gallery"
-        },{
-          id: 5,
-          name: "Contact",
-          link: "#contact"
-        }
+        
       ]
        // banner image variable start
   let bgimg = {
@@ -50,13 +37,13 @@ const HomePage = () => {
   // banner text variable end 
   // banner countdown variable start
   let bannerCountdown = {
-    date: "June 22, 2021 10:37:25"
+    date: "July 15, 2021 10:37:25"
   }
   // banner countdown variable end 
   // banner video button part start
   let videobtn = {
     iconClassName: "fa fa-play",
-    text: "Watch Full Video"
+    text: "Video"
   }
     return (
         <div>

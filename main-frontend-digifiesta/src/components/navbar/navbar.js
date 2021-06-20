@@ -26,9 +26,9 @@ function Navbar(props) {
     
   return (
     <nav className="navbar navbar-expand-lg">
-      <div className="container">
+      <div className="container" style={{width:'100%',margin:'0px'}} >
         <Link className="navbar-brand" to="/">
-          <img style={{height:'100px',width:'100px'}}  src={props.logo} alt={props.logo}/>
+          <img style={{height:'80px',width:'80px',marginRight:'5px'}}  src={props.logo} alt={props.logo}/>
         </Link>
         <button className="navbar-toggler" onClick={navBarHandler} type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <i className="fa fa-bars" aria-hidden="true"></i>
@@ -39,17 +39,24 @@ function Navbar(props) {
           <ul className={`navbar-nav ml-auto ${resNav?'fade-in':'fade-out'}`}>
 
             {navItem}
-            <li className="nav-item dropdown">
+            <li className="nav-item ">
              { auth.islogin && <Link to="/" onClick={auth.logout}>Logout</Link>}
             </li>
           {/* {auth.islogin &&   <button className="logoutbtn" onClick={auth.logout} >LogOut</button>  } */}
-          { !props.rgsbtndisable &&  <Link to="/pricing_plane">
-            <Button></Button>
-            </Link>}
+         
             
           </ul>
+          {/* { !props.rgsbtndisable &&  <Link to="/pricing_plane">
+            <Button></Button>
+            </Link>} */}
 
         </div>
+        <div className={`navbar-nav registerbtnmargin ${!resNav ?'regiterbtnfix':''}`}>
+        { !props.rgsbtndisable && !auth.islogin &&  <Link to="/registerhere">
+            <Button></Button>
+            </Link>}
+        </div>   
+        
       </div>
     </nav>
   );

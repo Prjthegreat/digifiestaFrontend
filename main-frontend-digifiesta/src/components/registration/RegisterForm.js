@@ -1,12 +1,16 @@
 import React,{useState,useContext} from 'react'
 import {useHistory} from 'react-router-dom'
-import jQuery from 'jquery'
+import Loader from "react-loader-spinner"
 import NavBar from '../navbar/navbar'
+import Banner from '../banner/banner'
+
 import './RegisterForm.css'
 import image from '../../images/UCCDA_wb (1).png'
+import Err from '../../images/error.png'
 import { AuthContext } from '../../context/auth-context'
 const RegisterForm = () => {
   const [signUp,setSignUp]=useState(false)
+  const [isLoading,setIsLoading]=useState(false)
   const auth=useContext(AuthContext)
   const history=useHistory()
     const toggleForm = () => {
@@ -39,11 +43,11 @@ const RegisterForm = () => {
       if(!signUp){
         const email=document.getElementById('login-email').value
         const psw=document.getElementById('login-psw').value
-        console.log(psw,email);
 
 
          //login request
          try{
+           setIsLoading(true)
           const response= await fetch(`${process.env.REACT_APP_BACKEND_URL}user/login`,{
               method:'POST',
               headers:{
@@ -58,9 +62,10 @@ const RegisterForm = () => {
               })
           })
           if(response.status===401){
-            document.getElementById('err').style.display='block'
-            document.getElementById('err').innerHTML='invalid credentials'
-            document.getElementById('err').style.opacity=1
+            setIsLoading(false)
+            document.getElementById('err_2').style.display='block'
+            document.getElementById('err_2').innerHTML='invalid credentials'
+            document.getElementById('err_2').style.opacity=1
             ID= setInterval(fn1,2000)
           }
           if(!response.ok){
@@ -68,6 +73,7 @@ const RegisterForm = () => {
           }
           const responseData=await response.json();
           console.log(responseData);
+          setIsLoading(false)
           auth.login(responseData.token);
           // setLoading(false);
           history.push("/")
@@ -76,6 +82,7 @@ const RegisterForm = () => {
       }catch(err){
           // setLoading(false)
           // setError(err.message || 'Something went Wrong, Please try again.');
+          setIsLoading(false)
           console.log(err)
       }
 
@@ -87,7 +94,7 @@ const RegisterForm = () => {
       else{
       
         const psw=document.getElementById('signup-psw').value
-        console.log(psw)
+        
         if(psw.length<5){
           document.getElementById('err').style.display='block'
           document.getElementById('err').innerHTML='Password should contain minimum 5 characters'
@@ -109,6 +116,7 @@ const RegisterForm = () => {
           formData.append('course',document.getElementById('signup-course').value)
           formData.append('branch',document.getElementById('signup-branch').value)
           formData.append('contactNo',document.getElementById('signup-contactNo').value)
+         // setIsLoading(true)
           const response= await fetch(`${process.env.REACT_APP_BACKEND_URL}user/signup`,{
               method:'POST',
               headers:{
@@ -129,6 +137,7 @@ const RegisterForm = () => {
               })
           })
           if(response.status==409){
+            //setIsLoading(false)
             document.getElementById('err').style.display='block'
             document.getElementById('err').innerHTML='Either username not available or email already registered'
             document.getElementById('err').style.opacity=1
@@ -138,25 +147,27 @@ const RegisterForm = () => {
               throw new Error(response.message);
           }
           if(response.status===401){
+            setIsLoading(false)
             document.getElementById('err').style.display='block'
             document.getElementById('err').innerHTML='invalid credentials'
             document.getElementById('err').style.opacity=1
             ID= setInterval(fn1,1000)
           }
+          if(response.status==200){
+            document.getElementById('err').style.display='block'
+            document.getElementById('err').innerHTML='Check your email to verify account. After successfull verification switch to signin window to login with your req credentials'
+            document.getElementById('err').style.opacity=1
+            ID= setInterval(fn1,3000)
+             console.log('check mail');
+          }
           const responseData=await response.json();
 
           console.log(responseData);
           auth.login(responseData.token);
-          // setLoading(false);
-          document.getElementById('err').style.display='block'
-          document.getElementById('err').innerHTML='Check your email to verify account. After successfull verification switch to signin window to login with your req credentials'
-          document.getElementById('err').style.opacity=1
-          ID= setInterval(fn1,3000)
-           console.log('check mail');
-          // console.log(auth);
+    
       }catch(err){
           
-          
+          setIsLoading(false)
           console.log(err)
       }
 
@@ -171,27 +182,39 @@ const RegisterForm = () => {
           name: "Home",
           link: "/"
         }, {
-          id: 2,
-          name: "Speakers",
-          link: "#speakers"
-        }, {
           id: 3,
           name: "Event",
           link: "/eventpage"
-        }, {
-          id: 4,
-          name: "Testimonial",
-          link: "#testimonial"
-        }, {
-          id: 5,
-          name: "Contact",
-          link: "#contact"
         }
       ]
+          // banner image variable start
+  let bgimg = {
+    backgroundImage: `url(https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1504&q=80)`,
+    backgroundSize: "cover"
+  }
+  // banner image variable end 
+  // banner text variable start
+  let bannerText = {
+    subHeading: 'First Register here, before taking registration in any event',
+    heading: 'DigiFiesta Registeration',
+    error: Err,
+  }
 
     return (
         <React.Fragment>
+          {isLoading && <div style={{backgroundColor:'rgba(42, 42, 44, 0.85)',height:'100vh'}} ><Loader
+              type="Bars"
+              color="#00BFFF"
+              height={500}
+              width={300}
+             visible={isLoading}
+            /> </div>}
+         { !isLoading &&  <React.Fragment>
              <NavBar name={navitem} logo={image} rgsbtndisable={true} />
+             <Banner  
+              bg={bgimg}
+              text={bannerText}
+              />
         <section className="sec__tion" >
             <div id="cont" className="contain__er" style={{paddingTop:'80px'}} >
       <div className="user signinBx">
@@ -206,7 +229,7 @@ const RegisterForm = () => {
               Haven't Registered yet ?
               <a href="#" onClick={toggleForm}>Register here</a>
             </p>
-            <p className="error" id="err" ></p>
+            <p className="error" id="err_2" ></p>
            
           </form><br/>
           
@@ -224,7 +247,7 @@ const RegisterForm = () => {
             <input type="text" name="" placeholder="College Roll No" id="signup-cllgRollNo" required/>
             <input type="text" name="" placeholder="Current year of your Course" id="signup-year" required/>
             <input type="text" name="" placeholder="Your Course" id="signup-course" required/>
-            <input type="text" name="" placeholder="Branch of your Course (optional)" id="signup-branch" />
+            <input type="text" name="" placeholder="Branch of your Course" id="signup-branch" />
             <input type="text" name="" placeholder="Contact Number" id="signup-contactNo" required/>
             <input type="submit" name=""  />
             <p className="signup">
@@ -240,6 +263,7 @@ const RegisterForm = () => {
       </div>
     </div> 
         </section>
+        </React.Fragment>}
         </React.Fragment>
     )
 }

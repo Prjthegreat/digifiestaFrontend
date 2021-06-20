@@ -6,4 +6,6 @@
     padding:8px 15px;
     background-color: #bbbbbb;
     padding:25px;
+    align-content: center;
+    align-items: flex-start;
 }

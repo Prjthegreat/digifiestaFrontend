@@ -20,7 +20,7 @@ function bannerText(props) {
           </span>
            or try to search</p>
       </div>
-      <div className="homebanner">
+      <div className="homebanner" style={{paddingLeft:'50px',paddingRight:'50px'}} >
         <p>{props.sub}</p>
         <h1 >{props.heading}</h1>
       </div>
