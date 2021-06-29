@@ -28,8 +28,8 @@ const MainFooter = () => {
             <div class="social mb-4">
               <h3>Stay in touch</h3>
               <ul class="list-unstyled">
-                <li class="in"><a href="#"><span className="fa fa-instagram"></span></a></li>
-                <li class="fb"><a href="#"><span className="fa fa-facebook"></span></a></li>
+                <li class="in"><a href="https://instagram.com/ucc_digitalaffairscell?utm_medium=copy_link" target="_blank" ><span className="fa fa-instagram"></span></a></li>
+                <li class="fb"><a href="https://www.facebook.com/University-Computer-Center-and-Digital-Affairs-Cell-103859811313385/" target="_blank" ><span className="fa fa-facebook"></span></a></li>
                 <li class="tw"><a href="#"><span class="fa fa-linkedin"></span></a></li>
               </ul>
             </div>

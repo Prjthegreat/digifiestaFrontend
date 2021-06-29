@@ -20,12 +20,17 @@ const HomePage = () => {
           name: "Event",
           link: "/eventpage"
         },
+        , {
+          id: 3,
+          name: "About",
+          link: "/about"
+        },
         
       ]
        // banner image variable start
   let bgimg = {
     backgroundImage: `url(${Background})`,
-    backgroundSize: "cover"
+    backgroundSize: "cover",
   }
   // banner image variable end 
   // banner text variable start

@@ -22,6 +22,8 @@ const CardsContainer = (props) => {
                  setIsLoading={props.setIsLoading}
                  setIsRequest={props.setIsRequest}
                  isrequest={props.isrequest}
+                 modal={props.modal}
+                 toggle={props.toggle}
                  />
                 
             ))}

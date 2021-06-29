@@ -9,6 +9,7 @@ import image from '../../images/UCCDA_wb (1).png'
 import Background from '../../images/Events.jpg'
 import Err from '../../images/error.png'
 import { AuthContext } from '../../context/auth-context'
+import ConfirmRegsiterEventModal from './ConfirmRegsiterEventModal'
 
 const MainEventsPage = (props) => {
     const auth=useContext(AuthContext)
@@ -25,6 +26,11 @@ const MainEventsPage = (props) => {
           id: 3,
           name: "Event",
           link: "/eventpage"
+        },
+         {
+          id: 3,
+          name: "About",
+          link: "/about"
         },
       ]
       
@@ -59,7 +65,7 @@ const MainEventsPage = (props) => {
        // if(auth.token){
          fetchEvents()
         //}
-     }, [auth,isrequest])
+     }, [isrequest])
 
 
         // banner image variable start
@@ -74,8 +80,13 @@ const MainEventsPage = (props) => {
     heading: 'DigiFiesta Events 2021',
     error: Err,
   }
+
+  const [modal, setModal] = useState(false);
+  const toggle = () => setModal(!modal);
+
     return (
          <React.Fragment>
+           {modal && <ConfirmRegsiterEventModal  modal={modal} toggle={toggle} /> }
           { isLoading &&<div style={{backgroundColor:'rgba(42, 42, 44, 0.85)',height:'100vh'}}><Loader
               type="Bars"
               color="#00BFFF"
@@ -90,7 +101,8 @@ const MainEventsPage = (props) => {
            text={bannerText}
           />
            <CardsContainer  events={events} isLoading={isLoading} 
-           setIsLoading={setIsLoading} isrequest={isrequest} setIsRequest={setIsRequest} />
+           setIsLoading={setIsLoading} isrequest={isrequest} setIsRequest={setIsRequest}
+            modal={modal} toggle={toggle} />
            <MainFooter />
             </React.Fragment>}
         </React.Fragment>

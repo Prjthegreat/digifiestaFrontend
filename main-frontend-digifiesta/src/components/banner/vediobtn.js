@@ -6,7 +6,7 @@ function vediobtn(props) {
   return (
 
     <div className="icon">
-      <span className="vdo">{props.videobtn.text}</span>
+      <span className="vdo"></span>
       <a
         className="venobox"
         data-autoplay="true"

@@ -185,6 +185,10 @@ const RegisterForm = () => {
           id: 3,
           name: "Event",
           link: "/eventpage"
+        }, {
+          id: 3,
+          name: "About",
+          link: "/about"
         }
       ]
           // banner image variable start

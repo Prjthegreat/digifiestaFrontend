@@ -4,6 +4,7 @@ import {BrowserRouter as Router,Route,Link,Switch } from 'react-router-dom'
 import HomePage from './pages/HomePage';
 import MainEventsPage from './pages/EventsPage/MainEventsPage';
 import RegisterForm from './components/registration/RegisterForm';
+import AboutPage from '../src/pages/AboutUs/AboutPage'
 import {AuthContext} from './context/auth-context'
 import {useState,useCallback,useEffect} from 'react'
 function App() {
@@ -55,6 +56,9 @@ useEffect(() => {
            </Route>
            <Route  path="/registerhere" exact >
            <RegisterForm />
+           </Route>
+           <Route  path="/about" exact >
+           <AboutPage />
            </Route>
         
          </Switch>

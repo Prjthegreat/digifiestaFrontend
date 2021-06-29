@@ -67,7 +67,7 @@ function CountDown(props) {
       </div>
       <div className="sec">
         <p  id="sec"></p>
-        <span style={{marginLeft:'2px'}} >Sec</span>
+        <span  >Sec</span>
       </div>
 
     </div>

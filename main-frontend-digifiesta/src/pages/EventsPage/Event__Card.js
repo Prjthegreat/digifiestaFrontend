@@ -26,15 +26,17 @@ const Event__Card = (props) => {
             })
             if(response.status==200){
                 console.log('successfully registered')
-                history.push("/")
+                history.push("/eventpage")
+                props.toggle()
             }
             if(!response.ok){
                 throw new Error(response.message);
             }
             const responseData=await response.json();
-            history.push("/")
-            history.replace("/")
+           // history.push("/")
+            //history.replace("/")
             props.setIsLoading(false)
+           
             props.setIsRequest(!props.isrequest)
             
              console.log('registered for this events successfully with event id:',props.id)
@@ -86,7 +88,11 @@ const Event__Card = (props) => {
                 </button>}
                 {confirmRegister && <div> <h3 style={{fontSize:'15px',color:'green'}}>Are you sure you want to register for this event</h3><br/>
                 
-                 <button className="btn__2" onClick={registerEventHandler} >Yes</button>
+                 <button className="btn__2" 
+                     onClick={()=>{
+                     registerEventHandler()
+                     props.setIsRequest(!props.isrequest);
+                     }} >Yes</button>
                  <button className="btn__2" onClick={()=>setConfirmRegister(false)} >No</button>
                 
                   </div>  }

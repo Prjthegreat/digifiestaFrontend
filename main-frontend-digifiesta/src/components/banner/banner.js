@@ -17,7 +17,7 @@ function banner(props) {
                      <CountDown count={props.countdown}/>
                 </div>
 
-                <div className="col-lg-2 p-0">
+                <div >
                      <Vedionbtn videobtn={props.videobtn}/>
                 </div>
           </div>}
