@@ -1,4 +1,4 @@
-import React,{useState,useContext} from 'react'
+import React,{useState,useContext, useEffect} from 'react'
 import {useHistory} from 'react-router-dom'
 import Loader from "react-loader-spinner"
 import NavBar from '../navbar/navbar'
@@ -7,6 +7,7 @@ import Banner from '../banner/banner'
 import './RegisterForm.css'
 import image from '../../images/UCCDA_wb (1).png'
 import Err from '../../images/error.png'
+import { useLocation } from 'react-router'
 import { AuthContext } from '../../context/auth-context'
 const RegisterForm = () => {
   const [signUp,setSignUp]=useState(false)
@@ -38,6 +39,20 @@ const RegisterForm = () => {
           return;
         }
     }
+    const location=useLocation()
+    let refercode
+     useEffect(()=>{
+      
+      refercode= new URLSearchParams(location.search).get('refer')
+      if(refercode){
+        localStorage.setItem('refercode',JSON.stringify({
+          refercode
+        }))
+      }
+
+     },[location])
+
+
     const onSubmitHandler=async(e)=>{
       e.preventDefault()
       if(!signUp){
@@ -103,6 +118,7 @@ const RegisterForm = () => {
           return ;
          }
          //registration request
+         const refercode=JSON.parse(localStorage.getItem('refercode'))
          try{
            //var csrftoken = getCookie('csrftoken');
           
@@ -134,6 +150,7 @@ const RegisterForm = () => {
                 course:document.getElementById('signup-course').value,
                 branch:document.getElementById('signup-branch').value,
                 contactNo:document.getElementById('signup-contactNo').value,
+                referralCode:refercode
               })
           })
           if(response.status==409){
@@ -231,7 +248,7 @@ const RegisterForm = () => {
             <input type="submit" name="" value="Login" />
             <p className="signup">
               Haven't Registered yet ?
-              <a href="#" onClick={toggleForm}>Register here</a>
+              <span style={{color:'blue',cursor:'pointer'}}  onClick={toggleForm}>Register here</span>
             </p>
             <p className="error" id="err_2" ></p>
            
@@ -256,7 +273,7 @@ const RegisterForm = () => {
             <input type="submit" name=""  />
             <p className="signup">
               Already have an account ?
-              <a href="#" onClick={toggleForm}>Sign in.</a>
+              <span style={{color:'blue',cursor:'pointer'}}  onClick={toggleForm}>Sign in.</span>
             </p>
             <p className="error" id="err" ></p>
             {/* <p style={{color:'green',fontSize:'10px'}} >Check your email to verify account. After successfull verification
